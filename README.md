@@ -8,5 +8,5 @@
 use php to create form grid
 
 ### 效果图 
-![](http://github-10004489.file.myqcloud.com/1.jpg)
+![](http://github-10004489.file.myqcloud.com/2.gif)
 ![](http://github-10004489.file.myqcloud.com/1.jpg)
