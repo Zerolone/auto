@@ -1,8 +1,9 @@
 <?php
 /**
- * 后台专用表单自动生成类
+ * 后台专用表单自动生成类，目前不支持别名
  * 
- * @version 2015-8-17 21:41:19
+ * @version 2015-8-24 22:25:55
+ * @author  Zerolone
  * 
  */
 
@@ -21,6 +22,13 @@ class Form{
   //控件用
   private $item;
   private $names = array();
+  private $version = array(
+    'umeditor'  => '1.2.2', 'umeditor.min'  => '',  // .min
+    'Validform' => '5.3.2', 'Validform.min' => '',  // _min
+    
+  );
+  
+  public $js;  //最后执行的js， 比jquery还后面的
   
   /**
    * 通过构造函数初始化成员变量
@@ -36,7 +44,15 @@ class Form{
     
     $enctype = '';
     if($this->name =='') $this->name = $rndFrom;
-    if($this->id ==''  ) $this->name = $rndFrom;
+    if($this->id ==''  ) $this->id   = $rndFrom;
+    
+    //vaildform
+    //      <script type="text/javascript">$("#'.$this->id.'").Validform({tiptype:3});</script>
+    $this->js = '
+      <link href="lib/Validform/css/style.css" type="text/css" rel="stylesheet">
+      <script type="text/javascript" charset="utf-8" src="lib/Validform/js/Validform_v'.$this->version['Validform'].$this->version['Validform.min'].'.js"></script>
+      <script type="text/javascript">$("#'.$this->id.'").Validform();</script>
+    ';
   }
     
   /**
@@ -113,9 +129,24 @@ class Form{
   id ---------- id
   label ------- 标签
   labelWidth -- 标签长度
-  type -------- 类型 text, password,
-  value ------- 字段值
-  
+  value ------- 内容
+  type -------- 类型 
+    ----html自带的控件--
+    
+    text ------ 文本框 ===== txt
+    password -- 密码框 ===== pwd\pass
+    file ------ 文件上传框 = upload\upfile\up
+    radio ----- 单选框 ===== 
+    checkbox -- 多选框 ===== check
+    select ---- 下拉选择 === option  通过参数 multiple 可以使用多选或者单选 
+    textarea -- 文本框 ===== 
+    hidden ---- 隐藏域 =====
+    submit ---- 提交按钮 ===
+    button ---- 普通按钮 ===
+    
+    ----增强控件----
+    richedit -- 富文本编辑器 == content/richeditor/rich/editor/umeditor/ueditor， 这里使用的是baidu的umeditor
+
    */
   function itemBuild(){
     $name        = $this->itemVal('name'); if($name=='') die('name unset !');
@@ -142,6 +173,16 @@ class Form{
     //button专用
     $style       = $this->itemVal('style', 'default');
     
+    //自定义宽度，高度
+    $eWidth      = $this->itemVal('eWidth')  + 0;
+    $eHeight     = $this->itemVal('eHeight') + 0;
+    
+    //验证用
+    $datatype    = $this->itemVal('datatype');
+    $errormsg    = $this->itemVal('errormsg');
+    $strValid    = '';
+    if($datatype!='') $strValid = ' datatype="'.$datatype.'" errormsg="'.$errormsg.'"';
+    
     $tmpStr = '';
     if($label!='')$label.=':';
     if($labelWidth>0) $tmpStr.= '<label class="col-sm-'.$labelWidth.' control-label" for="'.$name.'">'.$label.'</label>';
@@ -150,7 +191,7 @@ class Form{
       case 'text':
       case 'password':
       case 'file':
-        $tmpStr.= '<input class="form-control" type="'.$type.'" name="'.$name.'" id="'.$id.'" value="'.$value.'" placeholder="'.$placeholder.'" />';
+        $tmpStr.= '<input class="form-control" type="'.$type.'" name="'.$name.'" id="'.$id.'" value="'.$value.'" placeholder="'.$placeholder.'" '.$strValid.' />';
         break;
       case 'radio':
       case 'checkbox':
@@ -181,6 +222,25 @@ class Form{
       case 'submit':
       case 'button':
         $tmpStr.= '<button type="'.$type.'" class="btn btn-'.$style.'" name="'.$name.'" id="'.$id.'" value="'.$value.'">'.$value.'</button>';
+        break;
+      case 'richedit':
+        $eWidth  > 100 ? $eWidth.='px'  : $eWidth.='%';
+        $eHeight > 100 ? $eHeight.='px' : $eHeight.='%';
+        
+        $tmpStr.= '<script type="text/plain" id="'.$id.'" style="width:'.$eWidth.';height:'.$eHeight.';">'.$value.'</script>';
+        $this->js.= '
+          <link href="lib/umeditor'.$this->version['umeditor'].'/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+          <script type="text/javascript" charset="utf-8" src="lib/umeditor'.$this->version['umeditor'].'/umeditor.config.js"></script>
+          <script type="text/javascript" charset="utf-8" src="lib/umeditor'.$this->version['umeditor'].'/umeditor'.$this->version['umeditor.min'].'.js"></script>
+          <script type="text/javascript" src="lib/umeditor'.$this->version['umeditor'].'/lang/zh-cn/zh-cn.js"></script>
+          <script type="text/javascript">
+              var um = UM.getEditor("'.$id.'");
+          </script>
+        ';
+        
+        break;
+      default:
+        die('wrong type:'.$type);
     }
     
     //二次定制处理
@@ -196,149 +256,4 @@ class Form{
   }
   
 ////////////////////////////////////
-
-    //隐藏域函数
-    public function form_hidden($name, $id, $label_name, $label_for, $value = '')
-    {
-        $text = "<input type=\"hidden\" name=\"{$name}\" id=\"{$id}\" ";
-        if (isset($value)) {
-            $text .= "value=\"{$value}\" ";
-        }
-        $text .= '/>
-';
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //文件域函数
-    public function form_file($name, $id, $label_name, $label_for, $size = '')
-    {
-        $text = "<input type=\"file\" name=\"{$name}\" ";
-        $text .= "id=\"{$id}\" ";
-        if (isset($size)) {
-            $text .= "size=\"{$size}\" ";
-        }
-        $text .= '/>
-';
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //复选框函数
-    public function form_checkbox($name, $label = array(), $label_name, $label_for = '')
-    {
-        $i = 0;
-        $text = array();
-        foreach ($label as $id => $value) {
-            $text[$i] = "<input type=\"checkbox\" id=\"{$id}\" name=\"{$name}\" value=\"{$value}\" />";
-            $text[$i] .= "<label for=\"{$id}\">{$value}</label>";
-            $i++;
-        }
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //单选框函数
-    public function form_radio($name, $label = array(), $label_name, $label_for = '')
-    {
-        $i = 0;
-        $text = array();
-        foreach ($label as $id => $value) {
-            $text[$i] = "<input type=\"radio\" id=\"{$id}\" name=\"{$name}\" value=\"{$value}\" />";
-            $text[$i] .= "<label for=\"{$id}\">{$value}</label>";
-            $i++;
-        }
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //下拉菜单函数
-    public function form_select($id, $name, $options = array(), $selected = false, $label_name, $label_for, $onchange = '')
-    {
-        if ($onchange !== '') {
-            $text = "<select id=\"{$id}\" name=\"{$name}\" onchang=\"{$onchange}\">\n";
-        } else {
-            $text = "<select id=\"{$id}\" name=\"{$name}\">\n";
-        }
-        foreach ($options as $value => $key) {
-            if ($selected == $value) {
-                $text .= "\t<option valute=\"{$value}\" selected=\"selected\">{$key}</option>\n";
-            } elseif ($selected === false) {
-                $text .= "\t<option value=\"{$value}\">{$key}</option>\n";
-            }
-        }
-        $text .= '</select>';
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //多选列表函数
-    public function form_selectmul($id, $name, $size, $options = array(), $label_name, $label_for)
-    {
-        $text = "<select id=\"{$id}\" name=\"{$name}\" size=\"{$size}\" multiple=\"multiple\">\n";
-        foreach ($options as $value => $key) {
-            $text .= "\t<option value=\"{$value}\">{$key}</option>\n";
-        }
-        $text .= '</select>
-';
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //按钮函数
-    public function form_button($id, $name, $type, $value, $onclick = '')
-    {
-        $text = "<button id=\"{$id}\" name=\"{$name}\" type=\"{$type}\"";
-        if ($onclick !== '') {
-            $text .= " onclick='{$onclick}'";
-        }
-        $text .= '>' . $value;
-        $text .= '</button>
-';
-        if ($this->layout == true) {
-            $form_item = "<tr>\n\t<th> </th><td>{$text}</td>\n</tr>\n";
-        } else {
-            $form_item = $text;
-        }
-        return $form_item;
-    }
-    //文本域函数
-    public function form_textarea($id, $name, $cols, $rows, $label_name, $label_for, $value = '')
-    {
-        $text = "<textarea id=\"{$id}\" name=\"{$name}\" cols=\"{$cols}\" rows=\"{$rows}\">{$value}</textarea>\n";
-        $label = $this->form_label($label_name, $label_for);
-        $form_item = $this->form_item($label, $text);
-        return $form_item;
-    }
-    //文字标签函数
-    public function form_label($text, $for)
-    {
-        if ($for !== '') {
-            $label = "<label for=\"{$for}\">{$text}：</label>";
-        } else {
-            $label = $text . '：';
-        }
-        return $label;
-    }
-    public function form_item($form_label, $form_text)
-    {
-        switch ($this->layout) {
-            case true:
-                $text = '<tr>';
-                $text .= '	<th class="label">';
-                $text .= $form_label;
-                $text .= '</th>';
-                $text .= '	<td>';
-                $text .= $form_text;
-                $text .= '</td>';
-                $text .= '</tr>';
-                break;
-            case false:
-                $text = $form_label;
-                $text .= $form_text;
-                break;
-        }
-        return $text;
-    }
-
 }

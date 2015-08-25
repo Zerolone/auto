@@ -1,0 +1,5 @@
+使用到的库、插件
+
+bootstrap  http://www.bootcss.com/
+umeditor   http://ueditor.baidu.com/
+validform  http://validform.rjboy.cn/

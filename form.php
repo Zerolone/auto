@@ -15,6 +15,7 @@ $strHtml = $html->create();
 
 $f = new Form('改变不了世界？来，咱们来商量下如何改变表单', 'form_submit.php', '_blank');   //参数可有可无，有默认值
 
+/**/
 //单行输入框--最简状态
 $f->item(array(
   array('name'=>'inp_simple'),
@@ -22,12 +23,12 @@ $f->item(array(
 
 //单行输入框
 $f->item(array(
-  array('name'=>'inp_simple2', 'width'=>'4', 'label'=>'带标签', 'labelWidth'=>2, 'placeholder'=>'单行带标签，标签长2，输入框长4'),
+  array('name'=>'inp_simple2', 'width'=>'4', 'label'=>'带标签', 'labelWidth'=>2, 'placeholder'=>'单行带标签，标签长2，输入框长4', 'datatype'=>'s5-16', 'errormsg'=>'当前标签至少5个字符,最多16个字符！'),
 ));
 
 //输入框
 $f->item(array(
-  array('name'=>'inp_user',     'width'=>'4', 'label'=>'用户名', 'labelWidth'=>2,),
+  array('name'=>'inp_user',     'width'=>'4', 'label'=>'用户名', 'labelWidth'=>2, 'datatype'=>'s6-16', 'errormsg'=>'用户名至少6个字符,最多16个字符！'),
   array('name'=>'inp_password', 'width'=>'4', 'label'=>'密码',   'labelWidth'=>2, 'type'=>'password', 'placeholder'=>'请输入你的密码')
 ));
 
@@ -105,10 +106,19 @@ $f->item(array(
   array('name'=>'btnSubmit2', 'width'=>'2', 'label'=>'', 'labelWidth'=>2, 'type'=>'submit', 'value'=>'提交按钮primary', 'style'=>'primary'),
 ));
 
+/**/
+
+//富文本编辑器
+$f->item(array(
+  array('type'=>'richedit','name'=>'inp_richeditor', 'width'=>'10', 'label'=>'富文本编辑器', 'labelWidth'=>2, 'value'=>'富<strong>文<em>本</em><em>内</em></strong>容<img src="http://img.baidu.com/hi/jx2/j_0068.gif" />','eWidth'=>100,'eHeight'=>200),
+));
 
 
 
 $strForm = $f->create();
 
 //输出表格
-echo str_replace('{body}', $strForm, $strHtml);exit();
+echo str_replace('{body}', $strForm, $strHtml);
+
+//最后的js
+echo $f->js;

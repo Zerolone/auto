@@ -7,7 +7,9 @@
  */
 
 class Html{
-  public  $title;  //页面名
+  public $title;  //页面名
+  
+  public $version = array('bootstrap'=>'3.3.5', 'jquery'=>'1.11.3');
   
   /**
    * 通过构造函数初始化成员变量
@@ -32,7 +34,7 @@ class Html{
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <title>'.$this->title.'</title>
-          <link href="lib/bootstrap335/css/bootstrap.min.css" rel="stylesheet">
+          <link href="lib/bootstrap'.$this->version['bootstrap'].'/css/bootstrap.min.css" rel="stylesheet">
         </head>
       <body>';
     return $strTmp;
@@ -43,8 +45,8 @@ class Html{
    */
   public function foot(){
     $strTmp = '
-        <script src="lib/jquery1.11.3.min.js"></script>
-        <script src="lib/bootstrap335/js/bootstrap.min.js"></script>
+        <script src="lib/jquery'.$this->version['jquery'].'.min.js"></script>
+        <script src="lib/bootstrap'.$this->version['bootstrap'].'/js/bootstrap.min.js"></script>
       </body>
       </html>';
     return $strTmp;

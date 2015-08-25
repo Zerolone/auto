@@ -1,0 +1,19 @@
+###云存储
+http://www.qcloud.com/product/cos.html
+
+---------------------------------------------------------------------------
+###使用到的库、插件
+bootstrap  http://www.bootcss.com/
+umeditor   http://ueditor.baidu.com/
+validform  http://validform.rjboy.cn/
+
+
+---------------------------------------------------------------------------
+###git 学习
+http://www.yiibai.com/git/git_commit_changes.html
+
+#获取修改
+git merge origin/master
+
+#提交修改
+
