@@ -106,12 +106,40 @@ $f->item(array(
   array('name'=>'btnSubmit2', 'width'=>'2', 'label'=>'', 'labelWidth'=>2, 'type'=>'submit', 'value'=>'提交按钮primary', 'style'=>'primary'),
 ));
 
-/**/
-
 //富文本编辑器
 $f->item(array(
   array('type'=>'richedit','name'=>'inp_richeditor', 'width'=>'10', 'label'=>'富文本编辑器', 'labelWidth'=>2, 'value'=>'富<strong>文<em>本</em><em>内</em></strong>容<img src="http://img.baidu.com/hi/jx2/j_0068.gif" />','eWidth'=>100,'eHeight'=>200),
 ));
+
+//日历控件
+$f->item(array(
+  array('type'=>'datetime', 'name'=>'inp_datatime1', 'width'=>'3', 'label'=>'日期控件',     'labelWidth'=>1,),
+  array('type'=>'datetime', 'name'=>'inp_datatime2', 'width'=>'3', 'label'=>'日期时间', 'labelWidth'=>1, 'format'=>'yyyy年MM月dd日 HH时mm分ss秒'),
+  array('type'=>'datetime', 'name'=>'inp_datatime3', 'width'=>'3', 'label'=>'有默认值',     'labelWidth'=>1, 'value'=>'2003-01-01'),
+));
+$f->item(array(
+  array('type'=>'datetime', 'name'=>'inp_datatime4', 'width'=>'3', 'label'=>'年', 'labelWidth'=>1, 'format'=>'yyyy年'),
+  array('type'=>'datetime', 'name'=>'inp_datatime5', 'width'=>'3', 'label'=>'月', 'labelWidth'=>1, 'format'=>'MM月'),
+  array('type'=>'datetime', 'name'=>'inp_datatime6', 'width'=>'3', 'label'=>'日', 'labelWidth'=>1, 'format'=>'dd日'),
+));
+
+
+//地区
+$f->item(array(
+  array('type'=>'area', 'name'=>'inp_area1', 'width'=>'4', 'label'=>'区域选择',     'labelWidth'=>2, 'show'=>1, 'prov'=>'江西省', 'city'=>'南昌市', 'area'=>'东湖区'),
+  array('type'=>'area', 'name'=>'inp_area2', 'width'=>'3', 'prov'=>'江西省', 'city'=>'南昌市'),
+));
+
+
+/**/
+
+//颜色
+$f->item(array(
+  array('type'=>'color', 'name'=>'inp_color', 'label'=>'颜色选择',     'labelWidth'=>2, 'width'=>'5', 'value'=>'#FF0000'),
+));
+
+
+
 
 
 

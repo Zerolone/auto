@@ -3,3 +3,9 @@
 bootstrap  http://www.bootcss.com/
 umeditor   http://ueditor.baidu.com/
 validform  http://validform.rjboy.cn/
+color      https://www.iplaybus.com/colorpicker.html
+
+
+½Ì³Ì
+http://www.runoob.com/bootstrap/bootstrap-tables.html
+https://www.iplaybus.com/demo/flexigridplus/
