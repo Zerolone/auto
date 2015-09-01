@@ -21,11 +21,11 @@ if (version_compare(PHP_VERSION, '5.1.0', '<')) die('本系统需要PHP版本为
 	
 //数据库定义 Database Define
 define('DB_TYPE',       'mysql5');
-define('DB_USER',       'mingyihuinet_f');
-define('DB_PASS',       'hkyxZ8z4St');
+define('DB_USER',       '');
+define('DB_PASS',       '');
 define('DB_HOST',       'localhost');
 define('DB_PORT',       '3333');
-define('DB_NAME',       'mingyihuitest');
+define('DB_NAME',       '');
 define('DB_LANG',       'UTF8');
 define('DB_TABLE_PRE',  'monolithpro_');	
 //-----------------------------------------------------------
@@ -34,10 +34,10 @@ define('DB_TABLE_PRE',  'monolithpro_');
 $site_version = 'V2011-5';
 
 //网站物理路径 site dir 最后都不要加斜杠
-define('SITE_DIR', '/var/www/web1/mingyihuitest');
-define('SITE_URL', 'http://www.mingyihui.net');
-define('WAP_SITE_URL', 'http://m.mingyihui.net');
-define('SITE_TITLE',      '名医汇');
+define('SITE_DIR', '');
+define('SITE_URL', '');
+define('WAP_SITE_URL', '');
+define('SITE_TITLE',      '');
 define('SITE_FOLDER',     '');
 
 //网站导航
@@ -87,7 +87,7 @@ define('TIMESTAMP', $_SERVER['REQUEST_TIME']);
 define('DB_CKPATH','/');
 
 //COOKIE有效域名
-define('DB_CKDOMAIN','.mingyihui.net');
+define('DB_CKDOMAIN','.1.net');
 
 ////////////////////
 //00全局变量////////
@@ -303,7 +303,7 @@ $userTypeArr = array (1 => '患者',  2 => '医生',  3 => '服务商');
 
 
 //盐
-define('SALT', 'mingyihui'); //
+define('SALT', ''); //
 
 //360检测
 if(is_file($_SERVER['DOCUMENT_ROOT'].'/360safe/360webscan.php')){

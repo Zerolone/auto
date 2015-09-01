@@ -35,8 +35,8 @@ $site_version = 'V2011-5';
 
 //网站物理路径 site dir 最后都不要加斜杠
 define('SITE_DIR',        $_SERVER['DOCUMENT_ROOT']); //如果有误，请手动设置
-define('SITE_URL',        'http://manage.mingyihui.cc');
-define('SITE_TITLE',      '快医 CMS');
+define('SITE_URL',        'http://localhost');
+define('SITE_TITLE',      '');
 
 //网站导航
 define('SITE_NAV',  '<a href="'.SITE_URL .'">首页 &gt;&gt;</a> ');
@@ -145,8 +145,8 @@ define('H_HEIGHT', 90 ); //头像高度
 ////////////////////
 //06文件上传模块////
 ////////////////////
-define('UPLOADURL',     'http://www.mingyihui.cc/upload/');
-define('UPLOADPATH',   'D:/wwwroot/mingyihui/upload/');
+define('UPLOADURL',     'http://localhost/upload/');
+define('UPLOADPATH',   'D:/wwwroot/upload/');
 
 define('UPLOAD_MAX',   2048);                //最大上传文件大小， 以K为单位
 define('UPLOAD_EXT',   '.gif,.jpg,.png, ');  //允许上传的附件
@@ -306,7 +306,7 @@ define('SALT', 'mingyihuimanage'); //
 /*
 本地测试用
 */
-$_SERVER['HTTP_HOST'] = 'www.mingyihui.net';
+$_SERVER['HTTP_HOST'] = 'localhost';
 $_SESSION['myh_wap']='123';
 
 define('DDD', @$_GET['ddd']);
