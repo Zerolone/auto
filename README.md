@@ -1,4 +1,4 @@
-# auto from
+# auto form
 用php生成表格、表单 php create form grid
 
 ### 想要实现的效果
